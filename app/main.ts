@@ -61,7 +61,7 @@ function createWindow(): void {
       webSecurity: true,
       sandbox: false,
     },
-  });
+  });//delete this comment
 
   if (process.env.NODE_ENV === 'development') {
     const startUrl = process.env.ELECTRON_START_URL || 'http://localhost:4000/src/index.html';

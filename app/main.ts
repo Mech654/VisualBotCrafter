@@ -39,6 +39,17 @@ function createWindow(): void {
   const iconPath = path.join(app.getAppPath(), 'dist', 'src', 'assets', 'images', 'mascot.png');
   Menu.setApplicationMenu(null);
 
+  const isDev = process.env.NODE_ENV === 'development';
+
+  const preloadPath = isDev
+    ? path.resolve(projectRoot, 'dist', 'preload-esm.mjs')
+    : path.join(
+        process.resourcesPath,
+        'app.asar.unpacked', 
+        'dist',
+        'preload-esm.mjs'
+      );
+
   const mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -46,7 +57,7 @@ function createWindow(): void {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: path.resolve(projectRoot, 'dist', 'preload-esm.mjs'),
+      preload: preloadPath,
       webSecurity: true,
       sandbox: false,
     },
@@ -79,7 +90,7 @@ function createWindow(): void {
     loadApp();
     mainWindow.webContents.openDevTools();
   } else {
-    console.log('Electron is running in production mode, loading from file');
+    console.log('Electron is running in production mode, loading from: ' + projectRoot ); 
     mainWindow.loadFile(path.join(projectRoot, 'dist', 'src', 'index.html'));
     mainWindow.webContents.openDevTools();
   }

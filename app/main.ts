@@ -81,6 +81,7 @@ function createWindow(): void {
   } else {
     console.log('Electron is running in production mode, loading from file');
     mainWindow.loadFile(path.join(projectRoot, 'dist', 'src', 'index.html'));
+    mainWindow.webContents.openDevTools();
   }
 }
 
